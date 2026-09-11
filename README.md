@@ -180,7 +180,7 @@ Credentials (required — pick one):
 ```bash
 # env
 set MICROCLAUDIA_LIVE_USERNAME=... or $env:MICROCLAUDIA_LIVE_USERNAME = "..."
-set MICROCLAUDIA_LIVE_PASSWORD=... or $env:MICROCLAUDIA_LIVE_PASSWORD = '...'
+set MICROCLAUDIA_LIVE_PASSWORD=... or $env:MICROCLAUDIA_LIVE_PASSWORD = "..."
 python -m pytest tests/integration/test_live_all_api_methods.py -m integration -v
 
 # pytest CLI flags
