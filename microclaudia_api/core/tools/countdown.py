@@ -11,7 +11,11 @@ _ANSI_CSI_RE = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 
 
 def is_tty(stream=None) -> bool:
-    """Return True only when attached to an interactive terminal."""
+    """
+    This function, will report whether the given stream is an interactive terminal.
+    :param stream: Stream to inspect; defaults to sys.stdout.
+    :return: True when the stream is a TTY.
+    """
     stream = stream or sys.stdout
     try:
         return stream.isatty()
@@ -20,7 +24,11 @@ def is_tty(stream=None) -> bool:
 
 
 def tty_write(text: str, tty: bool) -> None:
-    """Write + flush, stripping ANSI control codes when not on a terminal."""
+    """
+    This function, will write text to stdout and flush, stripping ANSI codes when not on a terminal.
+    :param text: Text to write, possibly containing ANSI escape sequences.
+    :param tty: When False, ANSI control codes are removed before writing.
+    """
     if not tty:
         text = _ANSI_CSI_RE.sub("", text)
     sys.stdout.write(text)
@@ -28,8 +36,12 @@ def tty_write(text: str, tty: bool) -> None:
 
 
 def countdown(max_timer: int = 30, max_dashes: int = 30, tty: bool | None = None) -> None:
-    """Blocking countdown timer. Redraws in place on a TTY; stays silent (sleep
-    only) when not on a terminal so logs/captured output stay clean."""
+    """
+    This function, will block for a countdown timer, redrawing in place on a TTY and sleeping silently otherwise.
+    :param max_timer: Seconds to count down from.
+    :param max_dashes: Width of the progress bar when redrawing on a TTY.
+    :param tty: Force TTY behavior; when None, detect via is_tty().
+    """
     tty = is_tty() if tty is None else tty
     tty_write(HIDE_CURSOR, tty)
     try:

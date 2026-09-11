@@ -8,6 +8,9 @@ from dataclasses import dataclass
 
 @dataclass
 class PingData:
+    """
+    This class, will hold the result of a terminal ping probe.
+    """
     endpoint_address: str
     hostname: str = ''
     ip_address: str = '0.0.0.0'
@@ -22,11 +25,19 @@ class PingData:
 
     @property
     def status(self) -> bool:
+        """
+        This function, will report whether the host answered based on packet counts when available, else the exit code.
+        :return: True when the probe indicates a live host.
+        """
         # Note: windows ping can exit 0 on 'Destination host unreachable', so parsed counts win when available.
         return self.packets_received > 0 if self.packets_received >= 0 else self.reachable
 
     @property
     def jitter(self) -> int:
+        """
+        This function, will compute the round-trip jitter as max response time minus min response time.
+        :return: Jitter in milliseconds, or -1 when response times are not numeric.
+        """
         # Note: response times are parsed from ping output as strings.
         try:
             return int(self.max_response_time) - int(self.min_response_time)
@@ -35,4 +46,8 @@ class PingData:
 
     @property
     def missing_packets(self):
+        """
+        This function, will report whether received and lost packet counts disagree.
+        :return: True when packets_received does not equal packets_lost.
+        """
         return self.packets_received != self.packets_lost

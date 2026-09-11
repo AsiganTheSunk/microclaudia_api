@@ -21,8 +21,11 @@ from microclaudia_api.core.static.microclaudia_exceptions import (
 
 def _get_first_arg_or_kwarg(args, kwargs, key: str):
     """
-    Helper for requirement decorators: fetch first arg after self or a named kwarg.
-    Returns None when missing.
+    This function, will resolve a required id from the first positional argument after self, or from a named kwarg.
+    :param args: Positional arguments passed to the decorated method.
+    :param kwargs: Keyword arguments passed to the decorated method.
+    :param key: Kwarg name to read when the value was not passed positionally (e.g. agency_id).
+    :return: The resolved value, or None when it is missing.
     """
     if len(args) >= 2:
         return args[1]

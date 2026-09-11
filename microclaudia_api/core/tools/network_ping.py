@@ -126,21 +126,31 @@ def get_ping_counts(lines):
 
 
 def get_response_times(lines):
+    """
+    This function, will parse min, max, and average round-trip times from Windows ping output.
+    :param lines: Ping stdout, split into lines.
+    :return: Tuple of (min, max, avg) response times, or (-1, -1, -1) when the timing block is absent.
+    :raises PingResponseTimeParseError: When the timing block is present but unreadable.
+    """
     try:
         if 'Approximate round trip times in milli-seconds' in lines[-2]:
             avg_response_time = lines[-1].split(',')[2].strip().split(' ')[2][:-2]
             min_response_time = lines[-1].split(',')[0].strip().split(' ')[2][:-2]
             max_response_time = lines[-1].split(',')[1].strip().split(' ')[2][:-2]
-            # print(min_response_time, max_response_time, avg_response_time)
             return min_response_time, max_response_time, avg_response_time
         else:
             return -1, -1, -1
-    except Exception as error:
-        # print(f'ping.get_response_times(): error: {error}')
+    except Exception:
         raise PingResponseTimeParseError
 
 
 def get_implicit_address(lines):
+    """
+    This function, will extract the bracketed IP address from a Windows ping preamble line.
+    :param lines: Ping stdout, split into lines.
+    :return: IP address string found between '[' and ']'.
+    :raises PingImplicitAddressParseError: When the preamble has no bracketed address.
+    """
     try:
         return lines[1].split('[')[1].split(']')[0]
     except (IndexError, AttributeError):
