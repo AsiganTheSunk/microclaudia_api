@@ -373,6 +373,11 @@ class MicroClaudiaAPI(MicroClaudiaAuth):
         _tty: bool = is_tty()
 
         def _draw_bar(_current: int, _pages: int) -> None:
+            """
+            This function, will redraw the agent-pagination progress line on stdout.
+            :param _current: Current page index being shown (1-based while paging).
+            :param _pages: Total pages to fetch, or 0 when there is nothing to load.
+            """
             _bar = f'-> [{_current}/{_pages}] :: <{len(_agents_stats_pages)}/{_total_agents}>'
             tty_write("\r" + CLEAR_LINE + _bar if _tty else _bar + "\n", _tty)
 
