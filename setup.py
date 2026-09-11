@@ -24,8 +24,6 @@ setup(
     install_requires=[
         'requests>=2.28',
         'jsonschema>=4.18',
-        'pandas>=2.0',
-        'numpy>=1.24',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
