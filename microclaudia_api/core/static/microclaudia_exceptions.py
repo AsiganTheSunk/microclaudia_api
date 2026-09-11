@@ -37,11 +37,11 @@ class MicroClaudiaForbiddenError(Exception):
 class MicroClaudiaAPIError(Exception):
     """Non-success HTTP response from an authorized API endpoint."""
 
-    def __init__(self, url: str, status_code: int, body: str = ''):
+    def __init__(self, url: str, status_code: int, body: str = '', max_len: int = 200):
         self.url = url
         self.status_code = status_code
-        self.body = body
-        detail = f': {body[:200]}' if body else ''
+        self.body = body[:max_len] + ('…' if len(body) > max_len else '')
+        detail = f': {self.body}' if self.body else ''
         super().__init__(f'HTTP {status_code} from {url!r}{detail}')
 
 

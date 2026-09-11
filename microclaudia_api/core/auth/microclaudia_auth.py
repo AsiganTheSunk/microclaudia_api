@@ -25,16 +25,6 @@ from microclaudia_api.core.static.microclaudia_uri_constants import (
 )
 
 
-def _body_snippet(response: Any, max_len: int = 200) -> str:
-    try:
-        text = response.text or ''
-    except Exception:
-        return ''
-    if len(text) <= max_len:
-        return text
-    return text[:max_len] + '…'
-
-
 def retry_on_unauthorized(func):
     """Re-run the wrapped method once after refresh-first re-authentication on 401."""
     @wraps(func)
@@ -73,7 +63,7 @@ class MicroClaudiaAuth:
             raise MicroClaudiaForbiddenError(url)
         if HTTPStatus.OK <= status_code < HTTPStatus.MULTIPLE_CHOICES:
             return response
-        body = _body_snippet(response)
+        body = getattr(response, 'text', '') or ''
         if status_code == HTTPStatus.TOO_MANY_REQUESTS:
             raise MicroClaudiaRateLimitError(url, status_code, body)
         raise MicroClaudiaAPIError(url, status_code, body)
