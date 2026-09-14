@@ -1,6 +1,6 @@
 # microclaudia_api
 
-Python client for the MicroClaudia HTTP API (`microclaudia.ccn-cert.cni.es`).
+Unofficial Python client for the MicroClaudia HTTP API (`microclaudia.ccn-cert.cni.es`).
 
 ## Usage
 
