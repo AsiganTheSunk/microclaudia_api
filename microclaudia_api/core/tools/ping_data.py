@@ -45,9 +45,9 @@ class PingData:
             return -1
 
     @property
-    def missing_packets(self):
+    def missing_packets(self) -> bool:
         """
         This function, will report whether received and lost packet counts disagree.
         :return: True when packets_received does not equal packets_lost.
         """
-        return self.packets_received != self.packets_lost
+        return self.packets_lost > 0
